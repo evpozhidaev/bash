@@ -5,14 +5,41 @@
 
 FILE=$1
 
-cat $FILE | while read LINE
-do
+if [ -f "$FILE" ]
+then
+  
+  # Построчно читаем файл
+  cat $FILE | while read LINE; do
+    
+    ARGUMENT_COUNT=$(echo $LINE| wc -w)
+    
+    #echo $ARGUMENT_COUNT
 
-        login=$(echo $LINE| awk '{print$1}')
-        homedir=$(echo $LINE| awk '{print$2}')
-        passwd=$(echo $LINE| awk '{print$3}')
+    if [ $ARGUMENT_COUNT != 0 ]; then
+    
+      login=$(echo $LINE| awk '{print$1}')
+      homedir=$(echo $LINE| awk '{print$2}')
+      passwd=$(echo $LINE| awk '{print$3}')
 
-        sudo useradd -d $homedir -m $login -p $passwd -U
+      echo $login
+      #sudo useradd -d $homedir -m $login -p $passwd -U
+      #  echo 'Success create user ' $login
+    else
+      
+      if [ $ARGUMENT_COUNT = 0 ]; then
+        echo "Must have minimum 1 argument in file $FILE"
+        exit 0;
+      else
+        echo "Argument at 1 line must be less then 8 in $FILE"
+        exit 0;
+      fi
+ 
+    fi
 
-        echo 'Success create user ' $login
-done
+  done
+
+else
+
+  echo "Wrong argument: $FILE - it is not file"
+
+fi
