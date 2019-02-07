@@ -2,7 +2,7 @@
 # Installing zabbix agent on XenServer 7.2
 
 echo "Chahge default route..."
-ip route replace default via 192.168.120.152
+ip route replace default via 192.168.120.1
 
 echo "Install zabbix-agent..."
 rpm -i https://repo.zabbix.com/zabbix/3.4/rhel/7/x86_64/zabbix-agent-3.4.15-1.el7.x86_64.rpm
